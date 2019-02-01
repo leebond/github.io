@@ -3,7 +3,7 @@
 #### Install Docker Desktop 
 follow and install normally from https://hub.docker.com/editions/community/docker-ce-desktop-mac
 #### Log in to Docker Desktop via Terminal:
-(you will be prompted to key in your docker username and password)
+(you will be prompted to key in your docker username and password)\b
 `$ docker login`
 #### Pull Oracle Database Enterprise Edition 12cR2 image from Docker hub
 `$ docker pull store/oracle/database-enterprise:12.2.0.1`
@@ -34,18 +34,17 @@ ORCLPDB1=
 (HOST=localhost)(PORT=32773))
     (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
 
-Connect to oracle from outside docker container
-Run container
-to use automatic assigned ports
-docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1
-docker ps - check that container status changes from “starting” to “healthy”
+#### Connect to oracle from outside docker container
+##### Run container using auto-assigned ports
+`docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
+`docker ps - check that container status changes from “starting” to “healthy”`
 to use manual assigned ports
-docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1
-if you need to redo the container:
-docker stop <container id>
-docker rm <container id>
-check ports
-docker port myorcldb
+`docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
+##### if you need to re-create the container:
+`$ docker stop <container id>`
+`docker rm <container id>`
+##### check ports
+`docker port myorcldb`
 
 Key in the following log in credentials on your DBMS GUI
 Connection name: <any preferred name>
@@ -63,10 +62,10 @@ username: system
 password: Oradoc_db1
 
 Create a database User 
-CREATE USER student IDENTIFIED BY studentpassword  DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP; 
+`CREATE USER student IDENTIFIED BY studentpassword DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP;`
 
 Usage: do not remove the docker container - removal will result in environment and data loss. You will have to restart the setup process again.
 
-Pull and run oracle database docker image 
+References
 https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/
 https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/
