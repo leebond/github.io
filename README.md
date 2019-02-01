@@ -15,18 +15,22 @@ you will be prompted to key in your docker username and password
 
 #### Add oracle sqlclient and library to PATH
 In Terminal
+
 `vi ~/.bash_profile`
 
 
 Some convenient vi commands
+
 `i` to insert
+
 `:q!` to exit without saving
+
 `:qw` to save and exit
 
 In vi
 ```markdown
 export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1
-export PATH=$ORACLE_HOME/bin:$PATH`
+export PATH=$ORACLE_HOME/bin:$PATH
 export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
 ```
 save and exit vi 
