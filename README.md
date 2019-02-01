@@ -4,22 +4,26 @@
 follow and install normally from https://hub.docker.com/editions/community/docker-ce-desktop-mac
 #### Log in to Docker Desktop via Terminal:
 (you will be prompted to key in your docker username and password)
-$ docker login
+`$ docker login`
 #### Pull Oracle Database Enterprise Edition 12cR2 image from Docker hub
-$ docker pull store/oracle/database-enterprise:12.2.0.1
+`$ docker pull store/oracle/database-enterprise:12.2.0.1`
 
-Install oracle sqlplus and oracle client in macOS
+#### Install oracle sqlplus and oracle client in macOS
 https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/
 
-Add oracle sqlclient and library to PATH
-vi ~/.bash_profile
+#### Add oracle sqlclient and library to PATH
+In Terminal
+`vi ~/.bash_profile`
 i to insert
 :q! to exit without saving
 :qw to save and exit
-export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1
-export PATH=$ORACLE_HOME/bin:$PATH
-export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
-$ source ~/.bash_profile
+In vi
+`export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1`
+`export PATH=$ORACLE_HOME/bin:$PATH`
+`export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib`
+`:qw`
+In Terminal
+`$ source ~/.bash_profile`
 
 Create a “tnsnames.ora” file in the following directory 
 /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin
