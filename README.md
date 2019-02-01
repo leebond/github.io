@@ -1,7 +1,7 @@
 ## How to run and connect to Oracle Database Enterprise Edition 12c Release 2 in a Docker container on MacOS X
 
 #### Install Docker Desktop 
-follow and install normally from https://hub.docker.com/editions/community/docker-ce-desktop-mac
+follow and install normally from [Link](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 #### Log in to Docker Desktop via Terminal:
 (you will be prompted to key in your docker username and password)\b
 `$ docker login`
@@ -9,7 +9,7 @@ follow and install normally from https://hub.docker.com/editions/community/docke
 `$ docker pull store/oracle/database-enterprise:12.2.0.1`
 
 #### Install oracle sqlplus and oracle client in macOS
-https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/
+[Link](https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/)
 
 #### Add oracle sqlclient and library to PATH
 In Terminal
@@ -80,5 +80,5 @@ password: Oradoc_db1
 ```
 
 ### References
-https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/
-https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/
+[Link](https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/)
+[Link](https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/)
