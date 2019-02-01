@@ -3,8 +3,10 @@
 #### Install Docker Desktop 
 follow and install normally from [docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 #### Log in to Docker Desktop via Terminal:
-(you will be prompted to key in your docker username and password)\b
+```
+you will be prompted to key in your docker username and password
 `$ docker login`
+```
 #### Pull Oracle Database Enterprise Edition 12cR2 image from Docker hub
 `$ docker pull store/oracle/database-enterprise:12.2.0.1`
 
@@ -14,18 +16,19 @@ follow and install normally from [docker](https://hub.docker.com/editions/commun
 #### Add oracle sqlclient and library to PATH
 In Terminal
 `vi ~/.bash_profile`
+
 ```
 Some convenient vi commands
-i to insert
-:q! to exit without saving
-:qw to save and exit
+`i` to insert
+`:q!` to exit without saving
+`:qw` to save and exit
 ```
 In vi
 ```
-`export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1`
-`export PATH=$ORACLE_HOME/bin:$PATH`
-`export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib`
-`:qw`
+`export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1
+export PATH=$ORACLE_HOME/bin:$PATH
+export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
+:qw`
 ```
 In Terminal
 `$ source ~/.bash_profile`
@@ -43,8 +46,8 @@ ORCLPDB1=
 
 #### Connect to oracle from outside docker container
 ##### Run container using automatically assigned ports
-`docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1
-docker ps - check that container status changes from “starting” to “healthy”`
+`docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
+`docker ps` - check that container status changes from “starting” to “healthy”`
 ##### Run container using manually assigned ports
 `docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
 ##### if you need to re-create the container:
