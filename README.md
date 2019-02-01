@@ -33,14 +33,45 @@ export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1
 export PATH=$ORACLE_HOME/bin:$PATH
 export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
 ```
-save and exit vi 
+save and exit vi
+
 `:qw`
 
 In Terminal
+
 `$ source ~/.bash_profile`
 
+#### How to connect to oracle docker container
+##### Run container using automatically assigned ports
+Over here I am giving my oracle container the name "myorcldb"
+
+`docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
+
+wait for a few minutes and check that container status changes from “starting” to “healthy”
+
+`docker ps`
+
+##### Run container using manually assigned ports
+`docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
+
+##### if you need to re-create the container:
+`$ docker stop <container id>`
+
+`docker rm <container id>`
+
+##### check ports
+`docker port myorcldb`
+
+I was automatically assigned to port 32773, I will be using that information in the next step.
+
 ### Create a “tnsnames.ora” file 
-in the following directory /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin
+in the following directory 
+
+`/Applications/oracle/product/instantclient_64/12.2.0.1/network/admin` 
+
+create a tnsnames.ora text file
+
+`vi /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin/tnsnames.ora`
 
 Contents of your tnsnames.ora file
 ```markdown
@@ -51,21 +82,6 @@ ORCLPDB1=
 (HOST=localhost)(PORT=32773))
     (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
 ```
-
-#### Setup to connect to oracle docker container from OS application
-##### Run container using automatically assigned ports
-Over here I am giving my oracle container the name `myorcldb`
-`docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
-wait for a few minutes and check that container status changes from “starting” to “healthy”
-`docker ps`
-##### Run container using manually assigned ports
-`docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
-##### if you need to re-create the container:
-`$ docker stop <container id>
-docker rm <container id>`
-##### check ports
-`docker port myorcldb`
-the port that i was automatically assigned was 32773, I will need this information in the next step.
 
 ### Key in the following log in credentials on your DBMS GUI
 ```markdown
