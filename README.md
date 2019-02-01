@@ -1,37 +1,68 @@
-## Welcome to GitHub Pages
+## How to run and connect to Oracle Database Enterprise Edition 12cR2 in a Docker container on MacOS X
+ 
+#### Install Docker Desktop 
+follow and install normally from https://hub.docker.com/editions/community/docker-ce-desktop-mac
+#### Log in to Docker Desktop via Terminal:
+(you will be prompted to key in your docker username and password)
+$ docker login
+#### Pull Oracle Database Enterprise Edition 12cR2 image from Docker hub
+$ docker pull store/oracle/database-enterprise:12.2.0.1
 
-You can use the [editor on GitHub](https://github.com/leebond/github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Install oracle sqlplus and oracle client in macOS
+https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Add oracle sqlclient and library to PATH
+vi ~/.bash_profile
+i to insert
+:q! to exit without saving
+:qw to save and exit
+export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1
+export PATH=$ORACLE_HOME/bin:$PATH
+export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
+$ source ~/.bash_profile
 
-### Markdown
+Create a “tnsnames.ora” file in the following directory 
+/Applications/oracle/product/instantclient_64/12.2.0.1/network/admin
+ORCLPDB1=
+(DESCRIPTION=
+(ADDRESS=
+(PROTOCOL=TCP)
+(HOST=localhost)(PORT=32773))
+    (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Connect to oracle from outside docker container
+Run container
+to use automatic assigned ports
+docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1
+docker ps - check that container status changes from “starting” to “healthy”
+to use manual assigned ports
+docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1
+if you need to redo the container:
+docker stop <container id>
+docker rm <container id>
+check ports
+docker port myorcldb
 
-```markdown
-Syntax highlighted code block
+Key in the following log in credentials on your DBMS GUI
+Connection name: <any preferred name>
+username: system
+password: Oradoc_db1
+hostname: localhost
+port: 32773
+service name: ORCLPDB1.localdomain
 
-# Header 1
-## Header 2
-### Header 3
+I personally like using DBeaver
+Host: localhost
+Port: 32773
+Database: ORCLPDB1.localdomain [Service name]
+username: system
+password: Oradoc_db1
 
-- Bulleted
-- List
+Create a database User 
+CREATE USER student IDENTIFIED BY studentpassword  DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP; 
 
-1. Numbered
-2. List
+Usage: do not remove the docker container - removal will result in environment and data loss. You will have to restart the setup process again.
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/leebond/github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Pull and run oracle database docker image 
+https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/
+https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/
