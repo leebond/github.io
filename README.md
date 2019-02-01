@@ -16,7 +16,7 @@ you will be prompted to key in your docker username and password
 #### Add oracle sqlclient and library to PATH
 In Terminal
 
-`vi ~/.bash_profile`
+`$ vi ~/.bash_profile`
 
 
 Some convenient vi commands
@@ -45,22 +45,22 @@ In Terminal
 ##### Run container using automatically assigned ports
 Over here I am giving my oracle container the name "myorcldb"
 
-`docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
+`$ docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
 
 wait for a few minutes and check that container status changes from “starting” to “healthy”
 
-`docker ps`
+`$ docker ps`
 
 ##### Run container using manually assigned ports
-`docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
+`$ docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
 
 ##### if you need to re-create the container:
 `$ docker stop <container id>`
 
-`docker rm <container id>`
+`$ docker rm <container id>`
 
 ##### check ports
-`docker port myorcldb`
+`$ docker port myorcldb`
 
 I was automatically assigned to port 32773, I will be using that information in the next step.
 
@@ -71,7 +71,7 @@ in the following directory
 
 create a tnsnames.ora text file
 
-`vi /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin/tnsnames.ora`
+`$ vi /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin/tnsnames.ora`
 
 Contents of your tnsnames.ora file
 ```markdown
@@ -113,4 +113,5 @@ Warning: do not remove the docker container - removal will result in environment
 
 ### References
 [run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide](https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/)
+
 [how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os](https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/)
