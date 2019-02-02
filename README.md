@@ -4,10 +4,12 @@
 download and install normally from [docker-mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 #### Log in to Docker Desktop via Terminal:
 you will be prompted for your docker username and password after running this command
+
 `$ docker login`
 
 #### Pull Oracle Database Enterprise Edition 12cR2 image from Docker hub
 next, pull Oracle 12cR2 image using the following 
+
 `$ docker pull store/oracle/database-enterprise:12.2.0.1`
 
 #### Install Oracle sqlplus and Oracle client in macOS
@@ -46,6 +48,7 @@ In Terminal
 ##### Choice 1: Run container using automatically assigned ports
 over here I am giving my oracle container the name "myorcldb"
 the following command will run a docker container with Oracle database
+
 `$ docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
 
 wait for a few minutes and check that container status changes from “starting” to “healthy”
@@ -63,6 +66,7 @@ wait for a few minutes and check that container status changes from “starting�
 ##### Check ports
 we need port information so that our Oracle client can listen to the right port that the database has exposed,
 run the following to check the port assigned
+
 `$ docker port myorcldb`
 
 since I was automatically assigned to port 32773, I will be using that information in the next step.
@@ -76,7 +80,8 @@ create a tnsnames.ora text file, this file is used by the Oracle client to conne
 
 `$ vi /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin/tnsnames.ora`
 
-from "check ports" step we also noticed the ip address assigned was 0.0.0.0 i.e. localhost, hence we will use
+copy the contents below into the vi editor
+from the "check ports" step we also noticed the ip address was 0.0.0.0 i.e. localhost, hence we will use
 localhost in the connection details
 
 Contents of your tnsnames.ora file
