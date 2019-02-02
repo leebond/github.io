@@ -128,6 +128,8 @@ removing your docker container means you will lose your database.
 hence, do not remove the docker container. If you do so you will have to restart the setup process again.
 
 ### References
+Oracle Database Server Docker Image Documentation
+
 [run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide](https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/)
 
 [how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os](https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/)
