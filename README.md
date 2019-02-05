@@ -49,14 +49,14 @@ In Terminal
 over here I am giving my oracle container the name "myorcldb"
 the following command will run a docker container with Oracle database
 
-`$ docker run -d -it --name myorcldb -P store/oracle/database-enterprise:12.2.0.1`
+`$ docker run -d -it --name myorcldb -P --restart always store/oracle/database-enterprise:12.2.0.1`
 
 wait for a few minutes and check that container status changes from “starting” to “healthy”
 
 `$ docker ps`
 
 ##### Choice 2: Run container using manually assigned ports
-`$ docker run -d -it --name myorcldb -p <yourip>:<assignedip> store/oracle/database-enterprise:12.2.0.1`
+`$ docker run -d -it --name myorcldb -p <yourip>:<assignedip> --restart always store/oracle/database-enterprise:12.2.0.1`
 
 ##### If you need to re-create the container
 `$ docker stop <container id>`
