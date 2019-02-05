@@ -52,6 +52,7 @@ the following command will run a docker container with Oracle database
 `$ docker run -d -it --name myorcldb -P --restart always store/oracle/database-enterprise:12.2.0.1`
 
 wait for a few minutes and check that container status changes from “starting” to “healthy”
+NOTE: make sure container is running everytime you reboot your machine
 
 `$ docker ps`
 
@@ -59,7 +60,8 @@ wait for a few minutes and check that container status changes from “starting�
 `$ docker run -d -it --name myorcldb -p <yourip>:<assignedip> --restart always store/oracle/database-enterprise:12.2.0.1`
 
 `--restart always`
-will always make sure your Oracle docker container starts up when your machine is rebooted.
+will always make sure your Oracle docker container starts up when your machine is rebooted. 
+use `docker ps` to check that your container is "healthy" before you fire up your DBMS GUI.
 
 ##### If you need to re-create the container
 `$ docker stop <container id>`
@@ -128,8 +130,10 @@ password: Oradoc_db1
 ### Create a database User 
 your database comes clean with no users created, you can create a user account for your specific needs
 with the following command by running the below in the DBMS GUI as SYSTEM admin
-`CREATE USER student IDENTIFIED BY studentpassword 
-GRANT ALL PRIVILEGES TO student
+`CREATE USER student IDENTIFIED BY studentpassword;
+
+GRANT ALL PRIVILEGES TO student;
+
 DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP;`
 
 ### Log in to your newly created user
