@@ -45,7 +45,7 @@ In Terminal
 `$ source ~/.bash_profile`
 
 #### Now we can setup the connection to Oracle docker container
-##### Choice 1: Run container using automatically assigned ports
+##### Choice 1: Run container using automatically assigned ports (not preferred)
 over here I am giving my oracle container the name "myorcldb"
 the following command will run a docker container with Oracle database
 
@@ -55,8 +55,11 @@ wait for a few minutes and check that container status changes from “starting�
 
 `$ docker ps`
 
-##### Choice 2: Run container using manually assigned ports
+##### Choice 2: Run container using manually assigned ports (preferred)
 `$ docker run -d -it --name myorcldb -p <yourip>:<assignedip> --restart always store/oracle/database-enterprise:12.2.0.1`
+
+`--restart always`
+will always make sure your Oracle docker container starts up when your machine is rebooted.
 
 ##### If you need to re-create the container
 `$ docker stop <container id>`
@@ -90,7 +93,7 @@ ORCLPDB1=
 (DESCRIPTION=
 (ADDRESS=
 (PROTOCOL=TCP)
-(HOST=localhost)(PORT=32773))
+(HOST=localhost)(PORT=1521))
     (CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
 ```
 
@@ -105,7 +108,7 @@ Connection name: <any preferred naming>
 username: system
 password: Oradoc_db1
 hostname: localhost
-port: 32773
+port: 1521
 service name: ORCLPDB1.localdomain
 ```
 
@@ -116,7 +119,7 @@ test the connection before saving
 
 ```markdown
 Host: localhost
-Port: 32773
+Port: 1521
 Database: ORCLPDB1.localdomain [Service name]
 username: system
 password: Oradoc_db1
@@ -125,7 +128,20 @@ password: Oradoc_db1
 ### Create a database User 
 your database comes clean with no users created, you can create a user account for your specific needs
 with the following command by running the below in the DBMS GUI as SYSTEM admin
-`CREATE USER student IDENTIFIED BY studentpassword DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP;`
+`CREATE USER student IDENTIFIED BY studentpassword 
+GRANT ALL PRIVILEGES TO student
+DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP;`
+
+### Log in to your newly created user
+dbeaver
+
+```markdown
+Host: localhost
+Port: 1521
+Database: ORCLPDB1.localdomain [Service name]
+username: student
+password: studentpassword
+```
 
 ### Usage
 since the docker container is running backend, stopping the docker container will stop the database service.
