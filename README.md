@@ -148,9 +148,12 @@ password: studentpassword
 ```
 
 ### Usage
-since the docker container is running backend, stopping the docker container will stop the database service.
-removing your docker container means you will lose your database.
+since the docker container is running backend, stopping the docker container will stop the database service but your data will not be lost.
+
+you will lose your database if you remove the docker container.
 hence, do not remove the docker container. If you do so you will have to restart the setup process again.
+
+if you dislike using the `--restart always` argument in the `docker run ... store/oracle/database-enterprise:12.2.0.1` command as shown above, you would have to manual start the docker container everytime daemon or your machine is rebooted by typing `docker start <container name>`.
 
 ### References
 Oracle Database Server Docker Image Documentation
