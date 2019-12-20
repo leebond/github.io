@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>David Lee</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="index.html" class="logo">David Lee</a>
+					<nav id="nav">
+						<a href="index.html">Home</a>
+						<a href="#projects">Projects</a>
+						<a href="#about">About</a>
+					</nav>
+					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+				</div>
+			</header>
+
+		<!-- Three -->
+			<section id="three" class="wrapper">
+				<div class="inner">
+					<header class="align-center">
+						<h2>How to install & setup Oracle DB within a Docker container on MacOS</h2>
+					</header>
+					<h4>Install Docker Desktop</h4>
+					<p>download and install from <a href="https://hub.docker.com/editions/community/docker-ce-desktop-mac" target="_blank">docker (macOS)</a></p>
+					<h4>Log in to Docker Desktop via Terminal</h4>
+					<p>you will be prompted for your docker username and password by running this command
+
+						<br>$ docker login</p>
+					<h4>Pull Oracle Database Enterprise Edition 12cR2 image from Docker hub</h4>
+					<p>pull Oracle 12cR2 image by running the following command
+
+						<br>$ docker pull store/oracle/database-enterprise:12.2.0.1
+							</p>
+					<h4>Install Oracle sqlplus and Oracle client in macOS</h4>
+					<p>you need Oracle sqlplus and client to connect to the database, follow Steps 1 & 2 from the following guide:
+					<br><a href="https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os" target="_blank">
+							how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os</a>
+					</p>
+					<h4>Add Oracle client and library to PATH</h4>
+					<p>In Terminal
+
+							<br>$ vi ~/.bash_profile
+							
+							<br>
+							<br>Some convenient vi commands
+							
+							<br>i to insert
+							
+							<br>:q! to exit without saving
+							
+							<br>:qw to save and exit
+							<br>
+							<br>Add the following lines
+							
+							<br>export ORACLE_HOME=/Applications/oracle/product/instantclient_64/12.2.0.1
+							<br>export PATH=$ORACLE_HOME/bin:$PATH
+							<br>export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib
+							<br>
+							<br>save and exit vi
+							<br>:qw
+							<br>
+							<br>In Terminal
+							
+							<br>$ source ~/.bash_profile
+							
+							</p>
+					<h4>Now we can setup the connection to Oracle docker container</h4>
+					<h5>Choice 1: Run container using automatically assigned ports (not preferred)</h5>
+					<p>over here I am giving my oracle container the name "myorcldb"
+						the following command will run a docker container with Oracle database
+						<br>
+						<br>$ docker run -d -it --name myorcldb -P --restart always store/oracle/database-enterprise:12.2.0.1
+						<br>
+						<br>wait for a few minutes and check that container status changes from “starting” to “healthy”
+						<br>NOTE: make sure container is running everytime you reboot your machine
+						<br>
+						<br>$ docker ps
+						</p>
+					<h5>Choice 2: Run container using manually assigned ports (preferred)</h5>
+					<p>$ docker run -d -it --name myorcldb -p [yourip]:[assignedip] --restart always store/oracle/database-enterprise:12.2.0.1
+							<br>
+							<br>--restart always
+							<br>will always make sure your Oracle docker container starts up when your machine is rebooted. 
+							use docker ps to check that your container is "healthy" before you fire up your DBMS GUI.
+						</p>
+
+					<h4>Optional: If you need to re-create the container</h4>
+					<p>You can stop or remove the container
+						<br>$ docker stop [container id]
+						or
+						<br>$ docker rm [container id]</p>
+					<h4>Check ports</h4>
+					<p>we need port information so that our Oracle client can listen to the right port that the database has exposed,
+						run the following to check the port assigned
+						
+						<br>$ docker port myorcldb
+						
+						<br>since I was automatically assigned to port 32773, I will be using this port number for the next step.
+						</p>
+					<h4>Create a “tnsnames.ora” file</h4>
+					<p>A Oracle client uses a tnsnames file to look for connection strings.
+						<br>in the following directory 
+
+						<br>/Applications/oracle/product/instantclient_64/12.2.0.1/network/admin 
+						
+						create a tnsnames.ora text file, this file is used by the Oracle client to connect to the database
+
+						<br>$ vi /Applications/oracle/product/instantclient_64/12.2.0.1/network/admin/tnsnames.ora
+
+						copy the contents below into the vi editor
+						from the "check ports" step we also noticed the ip address was 0.0.0.0 i.e. localhost, hence we will use
+						localhost in the connection details
+
+						<br>Contents of your tnsnames.ora file
+						<br>
+						<br>ORCLPDB1=
+						<br>(DESCRIPTION=
+						<br>(ADDRESS=
+						<br>(PROTOCOL=TCP)
+						<br>(HOST=localhost)(PORT=1521))
+						<br>	(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=ORCLPDB1.localdomain)))
+						
+
+						<br>and <b>you're all set to start using your database!</b>
+					</p>
+
+					<h4>Additional: Connect your database via a SQL client</h4>
+					<p>Oracle DBMS 
+						Key in the following login credentials on your DBMS GUI
+						in sqldeveloper you can key in the following credientials on clicking "New connection"
+						test the connection before saving
+						<br>
+						
+						<br>Connection name: <your preferred naming>
+						<br>username: system
+						<br>password: Oradoc_db1
+						<br>hostname: localhost
+						<br>port: 1521
+						<br>service name: ORCLPDB1.localdomain
+						<br>
+						<br>Since I personally like using DBeaver
+						you may download it from <a href="https://dbeaver.io/download/" target="_blank">dbeaver website</a>
+						the credientials are similar but in different fields
+						test the connection before saving
+
+						<br>
+						<br>Host: localhost
+						<br>Port: 1521
+						<br>Database: ORCLPDB1.localdomain [Service name]
+						<br>username: system
+						<br>password: Oradoc_db1
+
+					</p>
+					<h4>Additional: Create your database User</h4>
+					<p>your database comes clean with no users created, you can create a user account for your specific needs
+						with the following command by running the below in the DBMS GUI as SYSTEM admin
+						
+						<br>CREATE USER student IDENTIFIED BY studentpassword;
+						
+						<br>GRANT ALL PRIVILEGES TO student;
+						
+						<br>DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP;
+					</p>
+						
+					<h4>Log in to your newly created user</h4>
+					<p>DBeaver
+						<br>
+						<br>Host: localhost
+						<br>Port: 1521
+						<br>Database: ORCLPDB1.localdomain [Service name]
+						<br>username: student
+						<br>password: studentpassword
+					</p>
+					<h4>Important: Usage</h4>
+					<p>
+						since the docker container is running backend, stopping the docker container will stop the database service but your data will not be lost.
+
+						you will lose your database if you remove the docker container.
+						do not remove the docker container! If you do so you will have to restart the setup process again.
+						
+						if you dislike using the --restart always argument in the docker run ... store/oracle/database-enterprise:12.2.0.1 command as shown above, you would have to manual start the docker container everytime daemon or your machine is rebooted by typing docker start [container name].
+					</p>
+					<h4>References</h4>
+					<p><a href="https://technology.amis.nl/2017/11/18/run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide/" target="_blank">run-oracle-database-in-docker-using-prebaked-image-from-oracle-container-registry-a-two-minute-guide</a></p>
+					<p><a href="https://tomeuwork.wordpress.com/2014/05/12/how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os/" target="_blank">how-to-install-oracle-sqlplus-and-oracle-client-in-mac-os</a></p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+				<div class="inner">
+					<div class="flex">
+						<div class="copyright">
+							&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
+						</div>
+						<ul class="icons">
+							<li><a href="https://github.com/leebond" class="icon fa-github"><span class="label">Github</span></a></li>
+							<li><a href="https://www.linkedin.com/in/david-lee-guanhua-singapore/" class="icon fa-linkedin"><span class="label">linkedIn</span></a></li>
+						</ul>
+					</div>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
